@@ -36,9 +36,10 @@ get '/' do
   send_file 'index.html'
 end
 
-log_info("GAZ HACKED TO ALLOW PRUDCTION KEY TO WORK")
+
 
 def validateApiKey
+  log_info("GAZ HACKED TO ALLOW PRUDCTION KEY TO WORK")
   if Stripe.api_key.nil? || Stripe.api_key.empty?
     return "Error: you provided an empty secret key. Please provide your test mode secret key. For more information, see https://stripe.com/docs/keys"
   end
