@@ -39,12 +39,15 @@ end
 
 
 def validateApiKey
-  log_info("GAZ HACKED TO ALLOW PRUDCTION KEY TO WORK")
+  log_info("validateApiKey() GAZ HACKED TO ALLOW PRODUCTION KEY TO WORK")
   if Stripe.api_key.nil? || Stripe.api_key.empty?
     return "Error: you provided an empty secret key. Please provide your test mode secret key. For more information, see https://stripe.com/docs/keys"
   end
   if Stripe.api_key.start_with?('pk')
     return "Error: you used a publishable key to set up the example backend. Please use your test mode secret key. For more information, see https://stripe.com/docs/keys"
+  end
+  if Stripe.api_key.start_with?('sk_live')
+	log_info("YOU ARE USING A LIVE KEY, THIS IS NOT ALLOWED, BUT I HAVE HACKED IT SO WE ARENT STOPPED HERE, IS THIS OK?")
   end
   #GAZ-----------DOES THIS HELP?
   #if Stripe.api_key.start_with?('sk_live')
@@ -55,7 +58,10 @@ end
 
 # This endpoint registers a Verifone P400 reader to your Stripe account.
 # https://stripe.com/docs/terminal/readers/connecting/verifone-p400#register-reader
-post '/register_reader' do
+post '/register_reader' do 
+log_info("register a reader xxx")
+	
+end
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -92,10 +98,14 @@ end
 # The example backend does not currently support connected accounts.
 # To create a ConnectionToken for a connected account, see
 # https://stripe.com/docs/terminal/features/connect#direct-connection-tokens
-post '/connection_token' do
+post '/connection_token' do 
+log_info("gaz connection_token")
+	
+end
   validationError = validateApiKey
   if !validationError.nil?
     status 400
+	log_info("400 gaz validation error -> #{validationError}")
     return log_info(validationError)
   end
 
@@ -103,6 +113,7 @@ post '/connection_token' do
     token = Stripe::Terminal::ConnectionToken.create
   rescue Stripe::StripeError => e
     status 402
+	log_info("402 Error creating ConnectionToken! #{e.message}")
     return log_info("Error creating ConnectionToken! #{e.message}")
   end
 
@@ -117,7 +128,10 @@ end
 # The example backend does not currently support connected accounts.
 # To create a PaymentIntent for a connected account, see
 # https://stripe.com/docs/terminal/features/connect#direct-payment-intents-server-side
-post '/create_payment_intent' do
+post '/create_payment_intent' do 
+log_info("create_payment_intentzzzz")
+	
+end
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -136,10 +150,10 @@ post '/create_payment_intent' do
     )
   rescue Stripe::StripeError => e
     status 402
-    return log_info("Error creating PaymentIntent! #{e.message}")
+    return log_info("ccc Error creating PaymentIntent! #{e.message}")
   end
-
-  log_info("PaymentIntent successfully created: #{payment_intent.id}")
+	
+  log_info("ddd PaymentIntent successfully created: #{payment_intent.id} THE SECRET IS #{payment_intent.client_secret}")
   status 200
   return {:intent => payment_intent.id, :secret => payment_intent.client_secret}.to_json
 end
