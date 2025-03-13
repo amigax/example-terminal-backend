@@ -58,10 +58,10 @@ end
 
 # This endpoint registers a Verifone P400 reader to your Stripe account.
 # https://stripe.com/docs/terminal/readers/connecting/verifone-p400#register-reader
-post '/register_reader' do 
-log_info("register a reader xxx")
-	
+post '/register_reader' do 	
 end
+  
+  log_info("register a reader xxx")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
