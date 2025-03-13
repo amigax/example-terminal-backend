@@ -59,7 +59,7 @@ end
 # This endpoint registers a Verifone P400 reader to your Stripe account.
 # https://stripe.com/docs/terminal/readers/connecting/verifone-p400#register-reader
 post '/register_reader' do 	
-  #log_info("register a reader xxx")
+  log_info("register a reader xxx")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -77,7 +77,7 @@ post '/register_reader' do
     return log_info("Error registering reader! #{e.message}")
   end
 
-  #log_info("Reader registered: #{reader.id}")
+  log_info("Reader registered: #{reader.id}")
 
   status 200
   # Note that returning the Stripe reader object directly creates a dependency between your
