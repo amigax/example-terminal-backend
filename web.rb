@@ -97,7 +97,7 @@ end
 # To create a ConnectionToken for a connected account, see
 # https://stripe.com/docs/terminal/features/connect#direct-connection-tokens
 post '/connection_token' do 
-  #log_info("gaz connection_token")
+  log_info("gaz connection_token")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -109,7 +109,7 @@ post '/connection_token' do
     token = Stripe::Terminal::ConnectionToken.create
   rescue Stripe::StripeError => e
     status 402
-	#log_info("402 Error creating ConnectionToken! #{e.message}")
+	log_info("402 Error creating ConnectionToken! #{e.message}")
     return log_info("Error creating ConnectionToken! #{e.message}")
   end
 
@@ -125,7 +125,7 @@ end
 # To create a PaymentIntent for a connected account, see
 # https://stripe.com/docs/terminal/features/connect#direct-payment-intents-server-side
 post '/create_payment_intent' do 
-  #log_info("create_payment_intentzzzz")
+  log_info("create_payment_intentzzzz")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -147,7 +147,7 @@ post '/create_payment_intent' do
     return log_info("ccc Error creating PaymentIntent! #{e.message}")
   end
 	
-  #log_info("ddd PaymentIntent successfully created: #{payment_intent.id} THE SECRET IS #{payment_intent.client_secret}")
+  log_info("ddd PaymentIntent successfully created: #{payment_intent.id} THE SECRET IS #{payment_intent.client_secret}")
   status 200
   return {:intent => payment_intent.id, :secret => payment_intent.client_secret}.to_json
 end
