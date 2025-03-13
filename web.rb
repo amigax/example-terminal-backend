@@ -46,9 +46,9 @@ def validateApiKey
   if Stripe.api_key.start_with?('pk')
     return "Error: you used a publishable key to set up the example backend. Please use your test mode secret key. For more information, see https://stripe.com/docs/keys"
   end
-  if Stripe.api_key.start_with?('sk_live')
-	log_info("YOU ARE USING A LIVE KEY, THIS IS NOT ALLOWED, BUT I HAVE HACKED IT SO WE ARENT STOPPED HERE, IS THIS OK?")
-  end
+  #if Stripe.api_key.start_with?('sk_live')
+  #  log_info("YOU ARE USING A LIVE KEY, THIS IS NOT ALLOWED, BUT I HAVE HACKED IT SO WE ARENT STOPPED HERE, IS THIS OK?")
+  #end
   #GAZ-----------DOES THIS HELP?
   #if Stripe.api_key.start_with?('sk_live')
   #  return "Error: you used a live mode secret key to set up the example backend. Please use your test mode secret key. For more information, see https://stripe.com/docs/keys#test-live-modes"
@@ -59,7 +59,7 @@ end
 # This endpoint registers a Verifone P400 reader to your Stripe account.
 # https://stripe.com/docs/terminal/readers/connecting/verifone-p400#register-reader
 post '/register_reader' do 	
-  log_info("register a reader xxx")
+  #log_info("register a reader xxx")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -77,7 +77,7 @@ post '/register_reader' do
     return log_info("Error registering reader! #{e.message}")
   end
 
-  log_info("Reader registered: #{reader.id}")
+  #log_info("Reader registered: #{reader.id}")
 
   status 200
   # Note that returning the Stripe reader object directly creates a dependency between your
@@ -97,9 +97,7 @@ end
 # To create a ConnectionToken for a connected account, see
 # https://stripe.com/docs/terminal/features/connect#direct-connection-tokens
 post '/connection_token' do 
-log_info("gaz connection_token")
-	
-end
+  #log_info("gaz connection_token")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -111,7 +109,7 @@ end
     token = Stripe::Terminal::ConnectionToken.create
   rescue Stripe::StripeError => e
     status 402
-	log_info("402 Error creating ConnectionToken! #{e.message}")
+	#log_info("402 Error creating ConnectionToken! #{e.message}")
     return log_info("Error creating ConnectionToken! #{e.message}")
   end
 
@@ -127,9 +125,7 @@ end
 # To create a PaymentIntent for a connected account, see
 # https://stripe.com/docs/terminal/features/connect#direct-payment-intents-server-side
 post '/create_payment_intent' do 
-log_info("create_payment_intentzzzz")
-	
-end
+  #log_info("create_payment_intentzzzz")
   validationError = validateApiKey
   if !validationError.nil?
     status 400
@@ -151,7 +147,7 @@ end
     return log_info("ccc Error creating PaymentIntent! #{e.message}")
   end
 	
-  log_info("ddd PaymentIntent successfully created: #{payment_intent.id} THE SECRET IS #{payment_intent.client_secret}")
+  #log_info("ddd PaymentIntent successfully created: #{payment_intent.id} THE SECRET IS #{payment_intent.client_secret}")
   status 200
   return {:intent => payment_intent.id, :secret => payment_intent.client_secret}.to_json
 end
